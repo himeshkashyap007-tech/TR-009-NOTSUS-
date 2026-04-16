@@ -1,0 +1,32 @@
+[
+  {
+    "id": "greet_1",
+    "languages": {
+      "en": "Hello",
+      "ta": "வணக்கம்",
+      "te": "నమస్కారం",
+      "ne": "नमस्ते"
+    },
+    "category": "greetings",
+    "grammarNote": {
+      "ta": "Verb usually comes at the end (SOV structure)",
+      "te": "Uses subject-object-verb order",
+      "ne": "Has formal and informal forms"
+    }
+  },
+  {
+    "id": "eat_1",
+    "languages": {
+      "en": "I eat rice",
+      "ta": "நான் சாதம் சாப்பிடுகிறேன்",
+      "te": "నేను అన్నం తింటాను",
+      "ne": "म भात खान्छु"
+    },
+    "category": "daily",
+    "grammarNote": {
+      "ta": "Object comes before verb",
+      "te": "Verb at end of sentence",
+      "ne": "Verb agrees with subject"
+    }
+  }
+]
