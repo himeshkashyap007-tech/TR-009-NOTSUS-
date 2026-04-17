@@ -60,7 +60,7 @@ class ApiService {
   }
 
   async chat(message) {
-    return this.request('/api/chat', {
+    return this.request('/chat', {
       method: 'POST',
       body: JSON.stringify({ message }),
     });
@@ -98,7 +98,7 @@ class ApiService {
 
   async healthCheck() {
     try {
-      const response = await fetch(`${API_BASE_URL.replace('/api', '')}/api/health`);
+      const response = await fetch(`${API_BASE_URL}/health`);
       return response.ok;
     } catch {
       return false;
@@ -106,7 +106,7 @@ class ApiService {
   }
 
   async liveTranslate(text, sourceLanguage = 'auto', targetLanguage = 'en') {
-    return this.request('/api/live-translate', {
+    return this.request('/live-translate', {
       method: 'POST',
       body: JSON.stringify({
         text,
@@ -123,7 +123,7 @@ class ApiService {
       formData.append('language', language);
     }
 
-    const response = await fetch(`${API_BASE_URL}/api/transcribe`, {
+    const response = await fetch(`${API_BASE_URL}/transcribe`, {
       method: 'POST',
       body: formData,
     });
