@@ -49,7 +49,7 @@ class ApiService {
   }
 
   async getTranslation(audioId) {
-    return this.request(`/translate/${audioId}`);
+    return this.request(`/api/translate/${audioId}`);
   }
 
   async search(query, category, languageId, limit = 10) {
@@ -60,7 +60,7 @@ class ApiService {
   }
 
   async chat(message) {
-    return this.request('/chat', {
+    return this.request('/api/chat', {
       method: 'POST',
       body: JSON.stringify({ message }),
     });
