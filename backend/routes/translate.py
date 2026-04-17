@@ -3,7 +3,10 @@ from services.llm_service import translate_text
 
 translate_bp = Blueprint('translate', __name__)
 
-@translate_bp.route('/live-translate', methods=['POST'])
+from flask_cors import cross_origin
+
+@translate_bp.route('/live-translate', methods=['POST', 'OPTIONS'])
+@cross_origin()
 def live_translate():
     try:
         data = request.get_json()
