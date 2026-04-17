@@ -23,8 +23,7 @@ from routes.language import language_bp
 from routes.audio_transcribe import audio_bp
 
 app = Flask(__name__, static_folder='../frontend/dist')
-CORS(app, resources={r"/api/*": {"origin": "**}})
-
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 app.register_blueprint(upload_bp, url_prefix='/api')
 app.register_blueprint(status_bp, url_prefix='/api')
 app.register_blueprint(transcript_bp, url_prefix='/api')
