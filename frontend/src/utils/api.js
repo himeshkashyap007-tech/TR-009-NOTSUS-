@@ -106,7 +106,7 @@ class ApiService {
   }
 
   async liveTranslate(text, sourceLanguage = 'auto', targetLanguage = 'en') {
-    return this.request('/live-translate', {
+    return this.request('/api/live-translate', {
       method: 'POST',
       body: JSON.stringify({
         text,
