@@ -20,6 +20,7 @@ from routes.chat import chat_bp
 from routes.archive import archive_bp
 from routes.analytics import analytics_bp
 from routes.language import language_bp
+from routes.audio_transcribe import audio_bp
 
 app = Flask(__name__, static_folder='../frontend/dist')
 CORS(app)
@@ -33,6 +34,7 @@ app.register_blueprint(chat_bp, url_prefix='/api')
 app.register_blueprint(archive_bp, url_prefix='/api')
 app.register_blueprint(analytics_bp, url_prefix='/api')
 app.register_blueprint(language_bp, url_prefix='/api')
+app.register_blueprint(audio_bp, url_prefix='/api')
 
 
 @app.route('/')
@@ -45,7 +47,7 @@ def serve(path):
     if path and (path.startswith('api/') or path.startswith('static/')):
         return {"error": "Not found"}, 404
     
-    file_path = app.static_folder / path
+    file_path = Path(app.static_folder) / path
     if file_path.exists():
         return send_from_directory(app.static_folder, path)
     return send_from_directory(app.static_folder, 'index.html')

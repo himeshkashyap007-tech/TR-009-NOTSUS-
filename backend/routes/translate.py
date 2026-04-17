@@ -1,45 +1,7 @@
-from flask import Blueprint, jsonify, request
-from database import SessionLocal
-from models.translation import Translation
-from models.transcript import Transcript
-from utils.helpers import format_response
-from config.settings import OLLAMA_URL
-import requests
+from flask import Blueprint, request, jsonify
+from services.llm_service import translate_text
 
 translate_bp = Blueprint('translate', __name__)
-
-OLLAMA_API_URL = OLLAMA_URL or "http://localhost:11434"
-
-
-@translate_bp.route('/translate/<int:audio_id>', methods=['GET'])
-def get_translation(audio_id):
-    try:
-        db = SessionLocal()
-        try:
-            transcript = db.query(Transcript).filter(
-                Transcript.audio_id == audio_id
-            ).first()
-
-            if not transcript:
-                return jsonify(format_response(error="Transcript not found"))
-
-            translation = db.query(Translation).filter(
-                Translation.transcript_id == transcript.id
-            ).first()
-
-            if not translation:
-                return jsonify(format_response(error="Translation not found"))
-
-            return jsonify(format_response(
-                success=True,
-                data=translation.to_dict()
-            ))
-        finally:
-            db.close()
-
-    except Exception as e:
-        return jsonify(format_response(error=str(e)))
-
 
 @translate_bp.route('/live-translate', methods=['POST'])
 def live_translate():
@@ -56,30 +18,12 @@ def live_translate():
                 "success": False
             })
 
-        # 🔥 SIMPLE + STRONG PROMPT
-        prompt = f"Translate to {target_language}. Only give translated sentence.\n{text}"
-
-        response = requests.post(
-            f"{OLLAMA_API_URL}/api/generate",
-            json={
-                "model": "phi3",
-                "prompt": prompt,
-                "stream": False,
-                "options": {
-                    "temperature": 0,
-                    "num_predict": 50
-                }
-            },
-            timeout=15
+        translated_text = translate_text(
+            text=text,
+            target_lang=target_language
         )
-
-        result = response.json()
-        raw_text = result.get("response", "").strip()
-
-        print("OLLAMA:", raw_text)
-
-        # 🔥 CLEAN OUTPUT (KEY FIX)
-        translated_text = raw_text.split('\n')[0].replace('"', '').strip()
+        
+        translated_text = translated_text.strip()
 
         return jsonify({
             "original_text": text,
@@ -89,6 +33,7 @@ def live_translate():
         })
 
     except Exception as e:
+        print("GROQ ERROR:", str(e))
         return jsonify({
             "original_text": "",
             "translated_text": "",

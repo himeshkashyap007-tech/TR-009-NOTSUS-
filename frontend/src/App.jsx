@@ -6,6 +6,7 @@ import Upload from './pages/Upload';
 import Archive from './pages/Archive';
 import Chat from './pages/Chat';
 import LiveTranslator from './pages/LiveTranslator';
+import VoiceTranslator from './pages/VoiceTranslator';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route path="/archive" element={<Archive />} />
               <Route path="/chat" element={<Chat />} />
               <Route path="/live-translator" element={<LiveTranslator />} />
+              <Route path="/voice-translator" element={<VoiceTranslator />} />
             </Routes>
           </main>
         </div>

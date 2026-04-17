@@ -1,12 +1,13 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Home, Upload, Archive, MessageCircle, Languages, Zap } from 'lucide-react';
+import { Home, Upload, Archive, MessageCircle, Languages, Zap, Mic } from 'lucide-react';
 
 const navItems = [
   { path: '/', icon: Home, label: 'Home' },
   { path: '/upload', icon: Upload, label: 'Upload' },
   { path: '/archive', icon: Archive, label: 'Archive' },
   { path: '/live-translator', icon: Zap, label: 'Live' },
+  { path: '/voice-translator', icon: Mic, label: 'Voice' },
   { path: '/chat', icon: MessageCircle, label: 'Chat' },
 ];
 

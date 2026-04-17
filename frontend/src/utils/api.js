@@ -60,7 +60,7 @@ class ApiService {
   }
 
   async chat(message) {
-    return this.request('/chat', {
+    return this.request('/api/chat', {
       method: 'POST',
       body: JSON.stringify({ message }),
     });
@@ -106,7 +106,7 @@ class ApiService {
   }
 
   async liveTranslate(text, sourceLanguage = 'auto', targetLanguage = 'en') {
-    return this.request('/live-translate', {
+    return this.request('/api/live-translate', {
       method: 'POST',
       body: JSON.stringify({
         text,
@@ -114,6 +114,23 @@ class ApiService {
         target_language: targetLanguage
       }),
     });
+  }
+
+  async transcribeAudio(file, language = null) {
+    const formData = new FormData();
+    formData.append('file', file);
+    if (language) {
+      formData.append('language', language);
+    }
+
+    const response = await fetch(`${API_BASE_URL}/api/transcribe`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Transcription failed');
+    return data;
   }
 }
 

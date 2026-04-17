@@ -95,7 +95,7 @@ export default function LiveTranslator() {
     debounceTimerRef.current = setTimeout(() => {
       lastRequestIdRef.current += 1;
       translate(text, lastRequestIdRef.current);
-    }, 400);
+    }, 100);
   }, [translate]);
 
   const swapLanguages = () => {
@@ -162,7 +162,7 @@ export default function LiveTranslator() {
           lastRequestIdRef.current += 1;
           translate(displayText.trim(), lastRequestIdRef.current);
         }
-      }, 3000);
+      }, 1500);
     };
 
     recognitionRef.current.onerror = (event) => {

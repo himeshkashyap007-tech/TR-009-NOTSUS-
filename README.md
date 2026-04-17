@@ -13,7 +13,7 @@ LinguaVault is a full-stack web application designed to preserve endangered lang
 
 - **Audio Upload**: Drag & drop interface for uploading native language recordings
 - **AI Transcription**: Automatic speech-to-text using OpenAI Whisper
-- **Translation**: English translations via OpenAI GPT
+- **Translation**: English translations via Groq API (Llama 3.1 8B Instant)
 - **Phrase Extraction**: Intelligent categorization into greetings, culture, daily life, and emotions
 - **Semantic Search**: Find related phrases using AI embeddings
 - **Chat Interface**: Natural language querying of the language archive
@@ -35,7 +35,7 @@ LinguaVault is a full-stack web application designed to preserve endangered lang
 
 ### AI Services
 - OpenAI Whisper (base model)
-- OpenAI GPT-3.5-turbo
+- Groq API (Llama 3.1 8B Instant)
 - Sentence Transformers (embeddings)
 
 ### Database
@@ -48,6 +48,7 @@ LinguaVault is a full-stack web application designed to preserve endangered lang
 - Python 3.8+
 - Node.js 16+
 - npm or yarn
+- Groq API key (get one at https://console.groq.com)
 
 ### Backend Setup
 
@@ -61,9 +62,12 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 # Install dependencies
 pip install -r requirements.txt
 
+# Install Groq client
+pip install groq
+
 # Create .env file
 cp .env.example .env
-# Edit .env with your API keys (optional)
+# Edit .env with your API keys
 
 # Run the server
 python main.py
@@ -90,6 +94,10 @@ Frontend runs on: http://localhost:3000
 ### Backend (.env)
 
 ```env
+# Groq API Configuration
+GROQ_API_KEY=your_api_key_here
+MODEL_NAME=llama-3.1-8b-instant
+
 DATABASE_URL=sqlite:///linguavault.db
 OPENAI_API_KEY=your_openai_key_here
 HUGGINGFACE_API_KEY=your_huggingface_key_here
@@ -132,6 +140,8 @@ linguavault/
 │   ├── models/            # Database models
 │   ├── routes/            # API routes
 │   ├── services/          # Business logic
+│   │   ├── llm_service.py # Groq API integration
+│   │   └── translation.py # Translation service
 │   ├── utils/             # Utilities
 │   ├── workers/           # Background workers
 │   ├── main.py            # Entry point
@@ -153,7 +163,7 @@ Navigate to the Upload page and drag & drop an audio file. Select the language a
 
 The audio is automatically:
 1. Transcribed using Whisper AI
-2. Translated to English
+2. Translated to English using Groq API
 3. Split into phrases
 4. Categorized (greetings, culture, daily life, emotions)
 5. Indexed for semantic search
@@ -186,7 +196,8 @@ MIT License - See LICENSE file for details.
 
 ## Acknowledgments
 
-- OpenAI for Whisper and GPT
+- OpenAI for Whisper
+- Groq for fast LLM inference
 - Hugging Face for transformers
 - The language preservation community
 
